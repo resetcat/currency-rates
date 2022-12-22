@@ -34,3 +34,5 @@ Have docker installed on your system. You can download it here https://www.docke
     
 ---
 ### Endpoint description
+1. `http://localhost:7000/currency-rates/` will get you newest currency rates available from database in json format
+2. `http://localhost:7000/currency-rates/{currency}` replace {currency} with your currency code(3 letters ex. USD) and get historical values of your currency
