@@ -15,21 +15,17 @@ public class CurrencyRatesMain {
 
 
         Scanner scan = new Scanner(System.in);
-        while (true) {
-            String command = scan.nextLine();
-            if (command.equals("update")) {
+            if (scan.nextLine().equals("update")) {
                 service.getAPIRates();
-                System.out.println("db updated");
             }
-            if (command.equals("start")) {
+            if (scan.nextLine().equals("start")) {
                 Javalin.create()
                        .get("/currency-rates", a -> a.json(service.getRepository().getNewest()))
                        .get("/currency-rates/{code}",
                             a -> a.json(service.getRepository().getCurrency(a.pathParam("code"))))
                        .start(7000);
-                System.out.println("web app started");
             }
-        }
+
 
 
     }
