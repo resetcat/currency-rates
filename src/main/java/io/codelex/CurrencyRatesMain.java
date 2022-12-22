@@ -23,9 +23,9 @@ public class CurrencyRatesMain {
             }
             if (command.equals("start")) {
                 Javalin.create()
-                       .get("/currency-rates", a -> a.json(service.repository.getNewest()))
+                       .get("/currency-rates", a -> a.json(service.getRepository().getNewest()))
                        .get("/currency-rates/{code}",
-                            a -> a.json(service.repository.getCurrency(a.pathParam("code"))))
+                            a -> a.json(service.getRepository().getCurrency(a.pathParam("code"))))
                        .start(7000);
                 System.out.println("web app started");
             }

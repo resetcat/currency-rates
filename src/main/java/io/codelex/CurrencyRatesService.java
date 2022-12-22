@@ -1,6 +1,6 @@
 package io.codelex;
 
-import io.codelex.response.Response;
+import io.codelex.api_response.Response;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
@@ -19,13 +19,15 @@ import java.util.regex.Pattern;
 
 public class CurrencyRatesService {
 
-    CurrencyRatesRepository repository;
+   private final CurrencyRatesRepository repository;
 
     public CurrencyRatesService(CurrencyRatesRepository currencyRatesRepository) {
         this.repository = currencyRatesRepository;
     }
 
-
+    public CurrencyRatesRepository getRepository() {
+        return repository;
+    }
 
     public void getAPIRates() throws MalformedURLException, JAXBException, SQLException {
         URL url = new URL("https://www.bank.lv/vk/ecb_rss.xml");
