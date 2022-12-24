@@ -24,7 +24,7 @@ Have docker installed on your system. You can download it here https://www.docke
     docker build -t currency-rates-jar-with-dependencies.jar .
 5# And run the app with command:
 
-    docker run -p 7000:7000 --network=test_network --name currency-rates  -t -i  currency-rates-jar-with-dependencies.jar
+    docker run -p 7000:7000 --network=currency_network --name currency-rates  -t -i  currency-rates-jar-with-dependencies.jar
 6# To update and fill database with currency rate data enter in console:
 
     update
