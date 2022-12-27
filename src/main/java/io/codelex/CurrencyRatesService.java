@@ -1,13 +1,12 @@
 package io.codelex;
 
-import io.codelex.api_response.Response;
+import io.codelex.apiresponse.Response;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class CurrencyRatesService {
 
-   private final CurrencyRatesRepository repository;
+    private final CurrencyRatesRepository repository;
 
     public CurrencyRatesService(CurrencyRatesRepository currencyRatesRepository) {
         this.repository = currencyRatesRepository;
@@ -29,7 +28,7 @@ public class CurrencyRatesService {
         return repository;
     }
 
-    public void getAPIRates() throws MalformedURLException, JAXBException, SQLException {
+    public void getAPIRates() throws MalformedURLException, JAXBException {
         URL url = new URL("https://www.bank.lv/vk/ecb_rss.xml");
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
@@ -41,10 +40,11 @@ public class CurrencyRatesService {
 
     private List<CurrencyRatesList> responseToList(Response responseXml) {
         List<CurrencyRatesList> currencyRatesList = new ArrayList<>();
-        responseXml.getChannel().getItems().forEach(res -> {
-            currencyRatesList.add(new CurrencyRatesList(getRates(res.getDescription()),
-                                                        getDate(res.getPubDate())));
-        });
+        responseXml.getChannel()
+                   .getItems()
+                   .forEach(res -> currencyRatesList.add(
+                           new CurrencyRatesList(getRates(res.getDescription()),
+                                                 getDate(res.getPubDate()))));
         return currencyRatesList;
     }
 

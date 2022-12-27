@@ -1,4 +1,4 @@
-package io.codelex.api_response;
+package io.codelex.apiresponse;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
