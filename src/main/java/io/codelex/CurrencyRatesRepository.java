@@ -8,23 +8,21 @@ import java.util.Map;
 
 public class CurrencyRatesRepository {
 
-    public CurrencyRatesRepository() {
+    public CurrencyRatesRepository() throws SQLException {
         createTableIfDoesntExist();
     }
 
-    public void createTableIfDoesntExist() {
+    public void createTableIfDoesntExist() throws SQLException {
         String createTableSql = "CREATE TABLE IF NOT EXISTS currency_rates (  date DATE NOT NULL," +
                 "  currency VARCHAR(3) NOT NULL, rate DOUBLE PRECISION NOT NULL," +
                 "  PRIMARY KEY (date, currency))";
         try (Connection connection = HikariCPDataSource.getConnection();
              PreparedStatement createTablesStmnt = connection.prepareStatement(createTableSql)) {
             createTablesStmnt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    public void addCurrencyRates(List<CurrencyRatesList> list){
+    public void addCurrencyRates(List<CurrencyRatesList> list) throws SQLException {
         String insertSql = "INSERT INTO currency_rates (date, currency, rate) VALUES (?, ?, " +
                 "?) ON DUPLICATE KEY UPDATE rate = VALUES(rate)";
         try (Connection connection = HikariCPDataSource.getConnection();
@@ -38,12 +36,10 @@ public class CurrencyRatesRepository {
                     insertDataStmnt.execute();
                 }
             }
-        } catch (SQLException e){
-            e.printStackTrace();
         }
     }
 
-    public Map<String, Double> getNewest()  {
+    public Map<String, Double> getNewest() throws SQLException {
         String newestSql = "SELECT currency, rate FROM currency_rates WHERE date = (SELECT MAX(date) FROM currency_rates)";
         Map<String, Double> currencyList = new HashMap<>();
        try(Connection connection = HikariCPDataSource.getConnection();
@@ -52,13 +48,11 @@ public class CurrencyRatesRepository {
            while (result.next()) {
                currencyList.put(result.getString("currency"), result.getDouble("rate"));
            }
-       } catch (SQLException e){
-           e.printStackTrace();
        }
         return currencyList;
     }
 
-    public List<String> getCurrency(String currency){
+    public List<String> getCurrency(String currency) throws SQLException {
         String currencySQL = "SELECT * FROM currency_rates WHERE currency = ?";
         List<String> singleCurrencyDates = new ArrayList<>();
         try(Connection connection = HikariCPDataSource.getConnection();
@@ -71,9 +65,7 @@ public class CurrencyRatesRepository {
                     result.getDate("date") + " " + result.getString("currency") + " : " +
                             result.getDouble("rate"));
 
-        }} catch (SQLException e){
-            e.printStackTrace();
-        }
+        }}
         return singleCurrencyDates;
     }
 

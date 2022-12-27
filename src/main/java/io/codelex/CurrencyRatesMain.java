@@ -5,10 +5,11 @@ import io.javalin.Javalin;
 import jakarta.xml.bind.JAXBException;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class CurrencyRatesMain {
-    public static void main(String[] args) throws IOException, JAXBException {
+    public static void main(String[] args) throws IOException, JAXBException, SQLException {
 
         CurrencyRatesService service = new CurrencyRatesService(new CurrencyRatesRepository());
 

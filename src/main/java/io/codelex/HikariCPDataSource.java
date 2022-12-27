@@ -3,8 +3,12 @@ package io.codelex;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class HikariCPDataSource {
 
@@ -12,9 +16,15 @@ public class HikariCPDataSource {
     private static final HikariDataSource dataSource;
 
     static {
-        config.setJdbcUrl("jdbc:mysql://host.docker.internal:3307/currency_rates");
-        config.setUsername("root");
-        config.setPassword("misa");
+        Properties prop = new Properties();
+        try(InputStream inputStream = new FileInputStream("/app/config/database.properties")){
+            prop.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        config.setJdbcUrl(prop.getProperty("database.url"));
+        config.setUsername(prop.getProperty("database.username"));
+        config.setPassword(prop.getProperty("database.password"));
         dataSource = new HikariDataSource(config);
     }
 
