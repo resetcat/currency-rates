@@ -7,6 +7,7 @@ import jakarta.xml.bind.Unmarshaller;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class CurrencyRatesService {
         return repository;
     }
 
-    public void getAPIRates() throws MalformedURLException, JAXBException {
+    public void getAPIRates() throws MalformedURLException, JAXBException, SQLException {
         URL url = new URL("https://www.bank.lv/vk/ecb_rss.xml");
 
         JAXBContext jaxbContext = JAXBContext.newInstance(Response.class);
