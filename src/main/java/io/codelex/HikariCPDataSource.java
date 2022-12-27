@@ -22,6 +22,6 @@ public class HikariCPDataSource {
         return dataSource.getConnection();
     }
 
-    private HikariCPDataSource(){
+    private HikariCPDataSource() {
     }
 }

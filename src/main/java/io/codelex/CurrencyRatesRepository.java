@@ -58,23 +58,23 @@ public class CurrencyRatesRepository {
         return currencyList;
     }
 
-    public List<String> getCurrency(String currency) throws SQLException {
+    public List<String> getCurrency(String currency){
         String currencySQL = "SELECT * FROM currency_rates WHERE currency = ?";
-        List<String> SingleCurrencyDates = new ArrayList<>();
+        List<String> singleCurrencyDates = new ArrayList<>();
         try(Connection connection = HikariCPDataSource.getConnection();
         PreparedStatement currencyStnmt = connection.prepareStatement(currencySQL)) {
 
         currencyStnmt.setString(1, currency);
         ResultSet result = currencyStnmt.executeQuery();
         while (result.next()) {
-            SingleCurrencyDates.add(
+            singleCurrencyDates.add(
                     result.getDate("date") + " " + result.getString("currency") + " : " +
                             result.getDouble("rate"));
 
         }} catch (SQLException e){
             e.printStackTrace();
         }
-        return SingleCurrencyDates;
+        return singleCurrencyDates;
     }
 
 
